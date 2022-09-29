@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 
-export class ContenedorArchivo {
+export default class ContenedorArchivo {
     constructor(archivo) {
         this.archivo = archivo;
     }
@@ -46,9 +46,11 @@ export class ContenedorArchivo {
             const indexObj = objs.findIndex((o)=> o.id == id);
 
             if (indexObj == -1) {
-                throw new Error('Objeto no encontrado, intente con otro numero de identificacion')
-            } 
-            return objs[indexObj];
+                return {error: 'Objeto no encontrado, intente con otro numero de identificacion' }
+            } else {
+                return objs[indexObj];
+            }
+
 
         } catch (error) {
             console.log(error)
@@ -76,7 +78,7 @@ export class ContenedorArchivo {
         }
     }
 
-    async updateById(id, producto, precio, img) {
+    async updateById(id, obj) {
         try {
             const objs = JSON.parse(await fs.readFile(this.archivo, 'utf-8'), null, 2);
             const indexObj = objs.findIndex((o)=> o.id == id);
@@ -84,9 +86,7 @@ export class ContenedorArchivo {
             if (indexObj == -1) {
                 throw new Error('Objeto no encontrado, intente con otro numero de identificacion')
             } else {
-                objs[indexObj].producto = producto;
-                objs[indexObj].precio = precio;
-                objs[indexObj].img = img;
+                objs[indexObj] = {...obj, id: id}
             }
 
             await fs.writeFile(this.archivo, JSON.stringify(objs, null, 2))

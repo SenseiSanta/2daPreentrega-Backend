@@ -1,4 +1,4 @@
-const memoria = []
+export const memoria = []
 
 export class Contenedor {
     constructor(archivo) {
@@ -39,6 +39,7 @@ export class Contenedor {
             throw new Error('Objeto no encontrado, intente con otro numero de identificacion')
         } else {
             memoria.splice(indexObj, 1)
+            return `Item de memoria con id ${id} ha sido eliminado`
         }
     }
 
@@ -48,10 +49,12 @@ export class Contenedor {
             throw new Error('Objeto no encontrado, intente con otro numero de identificacion')
         } else {
             memoria[indexObj] = obj;
+            return `Item de memoria con id ${id} actualizado`
         }
     }
 
     async deleteAll() {
         memoria = []
+        return "La memoria ha sido reiniciada"
     }
 }

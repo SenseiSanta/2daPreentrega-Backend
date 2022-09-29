@@ -3,36 +3,38 @@ let carritosDao
 
 switch (process.env.PERS) {
     case 'json':
-        const { default: ProductosDaoArchivo } = await import('./productos/ProductosDaoArchivo.js')
-        const { default: CarritosDaoArchivo } = await import('./carritos/CarritosDaoArchivo.js')
+        const { ProductosDaoArchivo } = await import('./productos/ProductosDaoArchivo.js')
+        const { CarritosDaoArchivo } = await import('./carritos/CarritosDaoArchivo.js')
 
     productosDao = new ProductosDaoArchivo()
     carritosDao = new CarritosDaoArchivo()
     break
 
     case 'memoria':
-        const { default: ProductosDaoMemoria } = await import('./productos/ProductosDaoMemoria.js')
-        const { default: CarritosDaoMemoria } = await import('./carritos/CarritosDaoMemoria.js')
+        const { ProductosDaoMemoria } = await import('./productos/ProductosDaoMemoria.js')
+        const { CarritosDaoMemoria } = await import('./carritos/CarritosDaoMemoria.js')
 
     productosDao = new ProductosDaoMemoria()
     carritosDao = new CarritosDaoMemoria()
     break
 
     case 'firebase':
-        const { default: ProductosDaoFirebase } = await import('./productos/ProductosDaoFirebase.js')
-        const { default: CarritosDaoFirebase } = await import('./carritos/CarritosDaoFirebase.js')
+        const { ProductosDaoFirebase } = await import('./productos/ProductosDaoFirebase.js')
+        const { CarritosDaoFirebase } = await import('./carritos/CarritosDaoFirebase.js')
 
     productosDao = new ProductosDaoFirebase()
     carritosDao = new CarritosDaoFirebase()
     break
 
     case 'mongodb':
-        const { default: ProductosDaoMongoDB } = await import('./productos/ProductosDaoMongoDB.js')
-        const { default: CarritosDaoMongoDB } = await import('./carritos/CarritosDaoMongoDB.js')
+        const { ProductosDaoMongoDB } = await import('./productos/ProductosDaoMongoDB.js')
+        const { CarritosDaoMongoDB } = await import('./carritos/CarritosDaoMongoDB.js')
 
     productosDao = new ProductosDaoMongoDB()
     carritosDao = new CarritosDaoMongoDB()
     break
 }
+
+console.log(process.env.PERS)
 
 export { productosDao, carritosDao }
