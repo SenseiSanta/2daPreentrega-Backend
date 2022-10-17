@@ -3,7 +3,7 @@ import { configMongoDB } from "../utils/config.js";
 
 let connection = await mongoose.connect(configMongoDB.cnxString)
 
-export class ContendorMongoDB {
+export default class ContendorMongoDB {
 
     constructor(nombreColeccion, esquema) {
         this.coleccion = mongoose.model(nombreColeccion, esquema)

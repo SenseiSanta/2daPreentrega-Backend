@@ -1,6 +1,6 @@
-import ContendorMongoDB from '../../container/ContenedorMongoDB.js'
+import ContenedorMongoDB from '../../container/ContenedorMongoDB.js'
 
-export class CarritosDaoMongoDB extends ContendorMongoDB {
+export class ProductosDaoMongoDB extends ContenedorMongoDB {
 
     constructor() {
         super('productos', {

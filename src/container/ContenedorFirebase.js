@@ -1,16 +1,14 @@
 import admin from 'firebase-admin'
 import { createRequire } from "module";
 const require = createRequire(import.meta.url); // construct the require method
-const serviceAccount = require("../../DB/crt/preentrega2-backend-firebase-adminsdk-l4il5-3b3108fc47.json") // use the require method
-import fs from 'fs/promises';
-import { Query } from 'mongoose';
+const serviceAccount = require("../../DB/crt/preentrega2-backend-firebase-adminsdk-l4il5-3b3108fc47.json")
 
 //Conecta
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-export class ContenedorFirebase {
+export default class ContenedorFirebase {
     constructor(coleccion) {
         const db = admin.firestore()
         this.coleccion = db.collection(coleccion);

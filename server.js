@@ -4,6 +4,8 @@ import morgan from 'morgan';
 import path from 'path'
 import {fileURLToPath} from 'url';
 import * as dotenv from 'dotenv'
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 
 import {
@@ -11,16 +13,13 @@ import {
     carritosDao as carritosApi,
 } from './src/daos/index.js'
 
-
-
 /*=== Instancia de Server, contenedor y rutas ===*/
 const app = express();
 export const cajaProducto = productosApi;
 export const cajaCarritos = carritosApi;
 import routerProductos from './src/routes/productos.routes.js';
 import routerCarritos from './src/routes/carritos.routes.js';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 /*================= Middlewears =================*/
 app.use(express.json())

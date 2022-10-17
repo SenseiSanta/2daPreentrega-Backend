@@ -1,60 +1,58 @@
-export const memoria = []
-
-export class Contenedor {
-    constructor(archivo) {
-        this.archivo = archivo;
+export default class ContenedorMemoria {
+    constructor() {
+        this.memoria = [];
     }
 
     async getAll () {
-        if (memoria =! []) {
-            return memoria;
-        } else {
+        if (this.memoria == []) {
             return { error: 'No hay datos en memoria'}
+        } else {
+            return this.memoria;
         }
     }
 
     async save(obj) {
         let newId;
-        if (memoria.length == 0) {
+        if (this.memoria = []) {
             newId = 1
         } else {
-            newId = memoria[memoria.length -1].id + 1
+            newId = this.memoria[this.memoria.length-1].id + 1
         }
-        memoria.push({...obj, id: newId})
+        this.memoria.push({...obj, id: newId})
         return {status: 'Aniadido con exito'};
     }
 
     async getById(id) {
-        const indexObj = memoria.findIndex((o)=> o.id == id)
+        const indexObj = this.memoria.findIndex((o)=> o.id == id)
         if (indexObj == -1) {
-            throw new Error('Objeto no encontrado, intente con otro numero de identificacion')
+            return {error: 'Objeto no encontrado, intente con otro numero de identificacion'}
         } else {
-            return memoria[indexObj]
+            return this.memoria[indexObj]
         }
     }
 
     async deleteById(id) {
-        const indexObj = memoria.findIndex((o)=> o.id == id);
+        const indexObj = this.memoria.findIndex((o)=> o.id == id);
         if (indexObj == -1) {
             throw new Error('Objeto no encontrado, intente con otro numero de identificacion')
         } else {
-            memoria.splice(indexObj, 1)
+            this.memoria.splice(indexObj, 1)
             return `Item de memoria con id ${id} ha sido eliminado`
         }
     }
 
     async updateById(id, obj) {
-        const indexObj = memoria.findIndex((o)=> o.id == id);
+        const indexObj = this.memoria.findIndex((o)=> o.id == id);
         if (indexObj == -1) {
-            throw new Error('Objeto no encontrado, intente con otro numero de identificacion')
+            return {error:'Objeto no encontrado, intente con otro numero de identificacion'}
         } else {
-            memoria[indexObj] = obj;
+            this.memoria[indexObj] = obj;
             return `Item de memoria con id ${id} actualizado`
         }
     }
 
     async deleteAll() {
-        memoria = []
+        this.memoria = []
         return "La memoria ha sido reiniciada"
     }
 }

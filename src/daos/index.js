@@ -36,5 +36,6 @@ switch (process.env.PERS) {
 }
 
 console.log(process.env.PERS)
+console.log(process.env.SECRET_KEY)
 
 export { productosDao, carritosDao }
