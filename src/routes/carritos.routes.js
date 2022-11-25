@@ -1,7 +1,17 @@
 /* ============= INICIO DE ROUTEO ============= */
+import e from 'express';
 import express from 'express';
-import { cajaCarritos } from '../../server.js';
-import { cajaProducto } from '../../server.js';
+
+/* =========== Import de container ============ */
+import {
+    productosDao as ContainerProductos,
+    carritosDao as ContainerCarritos,
+} from '../../src/daos/index.js'
+
+/* ========= Creacion de contenedores ========= */
+const cajaCarritos = ContainerCarritos;
+const cajaProducto = ContainerProductos;
+
 const routerCarritos = express.Router();
 
 /* ============= Routing y metodos ============= */
@@ -17,7 +27,7 @@ routerCarritos.get('/', async (req, res) => {
 
 // Elimina un carrito por id
 routerCarritos.delete('/:id', async (req, res) => {
-    const id = parseInt(req.params['id']);
+    const id = req.params['id'];
     const eliminado = await cajaCarritos.deleteById(id)
     if (eliminado) {
         res.status(200).json({msg: 'Eliminado con exito'});
@@ -28,7 +38,7 @@ routerCarritos.delete('/:id', async (req, res) => {
 
 // Devuelve un carrito
 routerCarritos.get('/:id/productos', async (req, res) => {
-    const id = parseInt(req.params['id']);
+    const id = req.params['id'];
     const carrito = await cajaCarritos.getById(id);
     if (carrito.productos) {
         res.status(200).json(carrito.productos);
@@ -39,45 +49,59 @@ routerCarritos.get('/:id/productos', async (req, res) => {
 
 // Agrega productos a un carrito
 routerCarritos.post('/:id/productos', async (req, res) => {
-    const id = parseInt(req.params['id']);
+    const id = req.params['id'];
     const carrito = await cajaCarritos.getById(id);
-    const producto = await cajaProducto.getById(req.body.id);
-    if (producto.error){
-        res.status(400).json(producto.error)
+    if (carrito.error) {
+        res.status(400).json(
+            {
+                error: carrito.error,
+                mensaje: 'Error en el carrito'
+            })
     } else {
-        carrito.productos.push(producto)
-        await cajaCarritos.updateCart(carrito, id)
-        res.status(200).json({msg: "Agregado exitosamente",
-                            obj: carrito});
+        const producto = await cajaProducto.getById(req.body.id);
+        if (producto.error){
+            res.status(400).json(
+                {
+                    error: producto.error,
+                    mensaje: 'Error en el producto'
+                })
+        } else {
+            carrito.productos.push(producto)
+            await cajaCarritos.updateCart(carrito, id)
+            res.status(200).json({msg: "Agregado exitosamente. A continuacion el carrito:",
+                                  obj: carrito});
+        }
     }
 })
 
 //Elimina un producto de un carrito
 routerCarritos.delete('/:id/productos/:id_prod', async (req, res) => {
-    const idCart = parseInt(req.params['id']);
-    const idProd = parseInt(req.params['id_prod']);
+    const idCart = req.params['id'];
+    const idProd = req.params['id_prod'];
     const carrito = await cajaCarritos.getById(idCart);
-    const producto = await cajaProducto.getById(idProd);
-    const eliminado = await cajaCarritos.deleteProductById(carrito, producto)
-    if (eliminado) {
-        res.status(200).json({msg: 'Eliminado con exito'});
+    if (carrito.error) {
+        res.status(400).json(
+            {
+                error: carrito.error,
+                mensaje: 'Error en el carrito'
+            })
     } else {
-        res.status(400).json({error: 'No se elimino nada: Producto no encontrado'})
+        const producto = await cajaProducto.getById(idProd);
+        if (producto.error){
+            res.status(400).json(
+                {
+                    error: producto.error,
+                    mensaje: 'Error en el producto'
+                })
+        } else {
+            const eliminado = await cajaCarritos.deleteProductById(carrito, producto)
+            if (eliminado) {
+                res.status(200).json({msg: 'Eliminado con exito'});
+            } else {
+                res.status(400).json({error: 'No se elimino nada: Producto no encontrado'})
+            }
+        }
     }
-})
-
-/* ============= Error de Routing ============= */
-routerCarritos.get('*', (req, res) => {
-    res.status(404).json({ error : -2, descripcion: `ruta ${req.path} método ${req.method} no implementado`})
-})
-routerCarritos.post('*', (req, res) => {
-    res.status(404).json({ error : -2, descripcion: `ruta ${req.path} método ${req.method} no implementado`})
-})
-routerCarritos.delete('*', (req, res) => {
-    res.status(404).json({ error : -2, descripcion: `ruta ${req.path} método ${req.method} no implementado`})
-})
-routerCarritos.put('*', (req, res) => {
-    res.status(404).json({ error : -2, descripcion: `ruta ${req.path} método ${req.method} no implementado`})
 })
 
 /* =========== Exportacion de modulo =========== */

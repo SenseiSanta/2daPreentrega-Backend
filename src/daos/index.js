@@ -1,8 +1,11 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 let productosDao
 let carritosDao
 
 switch (process.env.PERS) {
-    case 'json':
+    case 'archivo':
         const { ProductosDaoArchivo } = await import('./productos/ProductosDaoArchivo.js')
         const { CarritosDaoArchivo } = await import('./carritos/CarritosDaoArchivo.js')
 
@@ -36,6 +39,5 @@ switch (process.env.PERS) {
 }
 
 console.log(process.env.PERS)
-console.log(process.env.SECRET_KEY)
 
 export { productosDao, carritosDao }

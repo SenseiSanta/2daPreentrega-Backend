@@ -13,12 +13,15 @@ export default class ContenedorMemoria {
 
     async save(obj) {
         let newId;
-        if (this.memoria = []) {
+        console.log(this.memoria)
+        if (this.memoria == []) {
             newId = 1
         } else {
-            newId = this.memoria[this.memoria.length-1].id + 1
+            newId = this.memoria.length +1
         }
-        this.memoria.push({...obj, id: newId})
+        let newObj = {...obj, id: newId}
+        this.memoria.push(newObj)
+        console.log(newObj)
         return {status: 'Aniadido con exito'};
     }
 
@@ -46,7 +49,7 @@ export default class ContenedorMemoria {
         if (indexObj == -1) {
             return {error:'Objeto no encontrado, intente con otro numero de identificacion'}
         } else {
-            this.memoria[indexObj] = obj;
+            this.memoria[indexObj] = {...obj, id: id};
             return `Item de memoria con id ${id} actualizado`
         }
     }

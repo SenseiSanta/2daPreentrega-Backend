@@ -4,8 +4,11 @@ export class ProductosDaoMongoDB extends ContenedorMongoDB {
 
     constructor() {
         super('productos', {
-            title: { type: String, required: true},
-            price: { type: Number, required: true},
+            producto: { type: String, required: true},
+            descripcion: { type: String, required: true},
+            codigo: { type: String, required: true},
+            precio: { type: Number, required: true},
+            stock: { type: Number, required: true},
             img: { type: String, required: true}
         })
     }

@@ -19,7 +19,7 @@ export default class ContenedorFirebase {
             let response = await this.coleccion.get();
             let users = [];
             response.forEach(doc =>{
-                users.push({ id: doc.id, ...doc.data() })
+                users.push({ ...doc.data() })
             })
             return users
         }
@@ -30,12 +30,11 @@ export default class ContenedorFirebase {
 
     async getById(id) {
         try {
-            const doc = await this.coleccion.doc(id).get();
-            if (!doc.exists) {
-                throw new Error('El id solicitado no existe')
+            const objectToReturn = await this.coleccion.doc(id).get()
+            if (objectToReturn.exists) {
+                return ( {...objectToReturn.data()} )
             } else {
-                const data = doc.data();
-                return {...data, id}
+                throw new Error('El id solicitado no existe')
             }
         } catch (error) {
             console.log(error)
@@ -47,12 +46,12 @@ export default class ContenedorFirebase {
         try {
             let doc = this.coleccion.doc();
             await doc.create({id: doc.id, ...obj});
+            return {msg: 'Objeto guardado correctamente'}
         } catch (error) {
             console.log(error)
             return {error: 'El objeto no se ha guardado'}
         }
     }
-
 
     async deleteById(id) {
         try {

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { configMongoDB } from "../utils/config.js";
 
-let connection = await mongoose.connect(configMongoDB.cnxString)
+let connection = await mongoose.connect(configMongoDB.db.cnxString)
 
 export default class ContendorMongoDB {
 
@@ -21,11 +21,11 @@ export default class ContendorMongoDB {
 
     async getById(id) {
         try {
-            const doc = await this.coleccion.find({id: id})
-            if (!doc.exists) {
-                throw new Error('El id solicitado no existe')
-            } else {
+            const doc = await this.coleccion.findById({"_id": id})
+            if (doc !== null) {
                 return doc
+            } else {
+                throw new Error('El id solicitado no existe')
             }
         } catch (error) {
             console.log(error)
@@ -35,37 +35,39 @@ export default class ContendorMongoDB {
 
     async save(obj) {
         try {
-            let doc = await this.coleccion.insert(obj);
+            let doc = await this.coleccion.create(obj);
             return {status: 'Objeto agregado', doc: doc}
         } catch (error) {
             console.log(error)
-            return {error: 'El objeto no se ha guardado'}
+            return {error: 'Ha ocurrido un error, revisa la consola'}
         }
     }
 
     async deleteById(id) {
         try {
-            const doc = await this.coleccion.deleteOne({id: id})
-            return `Usuario ${doc.id} eliminado`   
+            const doc = await this.coleccion.findById({"_id": id})
+            if (doc.id !== undefined) {
+                const deleted = await this.coleccion.deleteOne({"_id": id})
+                console.log(`${doc.id} eliminado`)
+                return true 
+            } else {
+                throw new Error (`El id ingresado no existe, por favor intente nuevamente`)
             }
+        }
         catch(error) {
-            return `El usuario con id ${id} no existe. Nada se ha eliminado`
+            console.log(error)
+            return false
         }
     }
 
     async updateById(id, obj) {
         try {
-            const toUpdate = await this.coleccion.doc(id).get()
-            const doc = this.coleccion.doc(id);
-            if (toUpdate.exists) {
-                await doc.update(obj)
-                return `Usuario con id ${id} actualizado`
-            } else {
-                return `El usuario con id ${id} no existe. Nada se ha actualizado`
-            }
+            const doc = await this.coleccion.updateOne({"_id": id}, {$set: {id: id, ...obj}})
+            console.log(`Usuario con id ${id} actualizado`)
+            return true
         }
         catch (error) {
-            console.log(error)
+            console.log(`Se ha ingresado un id inexistente, por favor intente nuevamente`)
             return false
         }
     }

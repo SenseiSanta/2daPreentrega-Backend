@@ -5,7 +5,7 @@ export default class ContenedorArchivo {
         this.archivo = archivo;
     }
 
-    async getAll () {
+    async getAll() {
         try {
             const objs = JSON.parse(await fs.readFile(this.archivo, 'utf-8'), null, 2);
             return objs;
@@ -20,23 +20,35 @@ export default class ContenedorArchivo {
             const objs = JSON.parse(await fs.readFile(this.archivo, 'utf-8'), null, 2);
             const fecha = new Date().toLocaleString('es-AR')
             let newId
+
+            //Verificar que no este repetido el item a guardar
+            for (let i = 0; i < objs.length; i++) {
+                if (objs[i].producto == obj.producto) {
+                    throw new Error ('El item que intentas añadir ya existe, intenta con otro nombre')
+                }
+            }
+
+            // Guardar nuevo ID
             if (objs.length == 0) {
                 newId = 1
             } else {
                 newId = objs[objs.length -1].id + 1
             }
 
+            // Guardar todo el objeto
             const newObj = { id: newId, timestamp: fecha, ...obj}
             objs.push(newObj)
 
+            // Reemplazar en la BD
             await fs.writeFile(this.archivo, JSON.stringify(objs, null, 2))
             return {
                 status: 'Aniadido con exito',
                 id: newObj.id
             };
 
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.log(err)
+            return {error: 'Ha ocurrido un error, revisa la consola'}
         }
     }
 
@@ -46,15 +58,14 @@ export default class ContenedorArchivo {
             const indexObj = objs.findIndex((o)=> o.id == id);
 
             if (indexObj == -1) {
-                return {error: 'Objeto no encontrado, intente con otro numero de identificacion' }
+                throw new Error('El id solicitado no existe')
             } else {
                 return objs[indexObj];
             }
 
-
         } catch (error) {
             console.log(error)
-            return {error: 'Objeto no encontrado'}
+            return {error: 'Ha ocurrido un error, revisa la consola'}
         }
     }
 
