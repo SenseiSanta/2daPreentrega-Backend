@@ -21,13 +21,6 @@ export default class ContenedorArchivo {
             const fecha = new Date().toLocaleString('es-AR')
             let newId
 
-            //Verificar que no este repetido el item a guardar
-            for (let i = 0; i < objs.length; i++) {
-                if (objs[i].producto == obj.producto) {
-                    throw new Error ('El item que intentas añadir ya existe, intenta con otro nombre')
-                }
-            }
-
             // Guardar nuevo ID
             if (objs.length == 0) {
                 newId = 1

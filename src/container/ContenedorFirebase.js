@@ -59,9 +59,10 @@ export default class ContenedorFirebase {
             const doc = this.coleccion.doc(id);
             if (toDelete.exists) {
                 await doc.delete()
-                return `Usuario con id ${id} eliminado`
+                console.log(`Item con id ${id} eliminado`)
+                return true 
             } else {
-                return `El usuario con id ${id} no existe. Nada se ha eliminado`
+                throw new Error('Objeto no encontrado, intente con otro numero de identificacion')
             }
         }
         catch (error) {
@@ -76,9 +77,10 @@ export default class ContenedorFirebase {
             const doc = this.coleccion.doc(id);
             if (toUpdate.exists) {
                 await doc.update(obj)
-                return `Usuario con id ${id} actualizado`
+                console.log(`Usuario con id ${id} actualizado`) 
+                return true
             } else {
-                return `El usuario con id ${id} no existe. Nada se ha actualizado`
+                throw new Error (`El usuario con id ${id} no existe. Nada se ha actualizado`)
             }
         }
         catch (error) {

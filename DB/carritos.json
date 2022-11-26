@@ -1,49 +1,17 @@
 [
   {
-    "id": 3,
-    "timestamp": "19/10/2022 19:41:58",
-    "productos": [
-      {
-        "id": 1,
-        "timestamp": "19/10/2022 19:56:19",
-        "producto": "teclado",
-        "descripcion": "teclado mecanico RGB USqwerty PadNum",
-        "codigo": "12345",
-        "precio": 280,
-        "stock": 5,
-        "img": "https://ar-media.hptiendaenlinea.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/2/U/2UN30AA-1_T1638827506.png"
-      }
-    ]
-  },
-  {
     "id": 4,
     "timestamp": "19/10/2022 19:42:01",
-    "productos": [
-      {
-        "id": 1,
-        "timestamp": "19/10/2022 19:56:19",
-        "producto": "teclado",
-        "descripcion": "teclado mecanico RGB USqwerty PadNum",
-        "codigo": "12345",
-        "precio": 280,
-        "stock": 5,
-        "img": "https://ar-media.hptiendaenlinea.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/2/U/2UN30AA-1_T1638827506.png"
-      },
-      {
-        "id": 1,
-        "timestamp": "19/10/2022 19:56:19",
-        "producto": "teclado",
-        "descripcion": "teclado mecanico RGB USqwerty PadNum",
-        "codigo": "12345",
-        "precio": 280,
-        "stock": 5,
-        "img": "https://ar-media.hptiendaenlinea.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/2/U/2UN30AA-1_T1638827506.png"
-      }
-    ]
+    "productos": []
   },
   {
     "id": 5,
     "timestamp": "5/11/2022 17:18:39",
+    "productos": []
+  },
+  {
+    "id": 6,
+    "timestamp": "25/11/2022 20:48:49",
     "productos": []
   }
 ]

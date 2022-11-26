@@ -1,14 +1,5 @@
 [
   {
-    "producto": "tecladso",
-    "descripcion": "teclado mecanico RGB USqwerty PadNum",
-    "codigo": "12345",
-    "precio": 190,
-    "stock": 22,
-    "img": "https://ar-media.hptiendaenlinea.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/2/U/2UN30AA-1_T1638827506.png",
-    "id": "1"
-  },
-  {
     "id": 2,
     "timestamp": "25/11/2022 19:48:08",
     "producto": "teclado Razer 1.1",
@@ -16,6 +7,16 @@
     "codigo": "12345",
     "precio": 190,
     "stock": 12,
+    "img": "https://ar-media.hptiendaenlinea.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/2/U/2UN30AA-1_T1638827506.png"
+  },
+  {
+    "id": 3,
+    "timestamp": "25/11/2022 20:42:30",
+    "producto": "teclado",
+    "descripcion": "teclado mecanico RGB USqwerty PadNum",
+    "codigo": "12345",
+    "precio": 390,
+    "stock": 4,
     "img": "https://ar-media.hptiendaenlinea.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/2/U/2UN30AA-1_T1638827506.png"
   }
 ]

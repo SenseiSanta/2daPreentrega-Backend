@@ -30,10 +30,14 @@ export class CarritosDaoArchivo extends ContenedorArchivo {
             const indexObj = objs.findIndex((o)=> o.id == carrito.id);
     
             if (indexObj == -1) {
-                throw new Error('Objeto no encontrado, intente con otro numero de identificacion')
+                throw new Error('Ha ocurrido un error en el carrito, intente nuevamente')
             } else if (objs[indexObj].productos) {
                 const indexProd = carrito.productos.findIndex((o)=> o.id == producto.id);
-                objs[indexObj].productos.splice(indexProd, 1)
+                if (indexProd == -1) {
+                    throw new Error ('El producto no se encuentra en el carrito')
+                } else {
+                    objs[indexObj].productos.splice(indexProd, 1)
+                }
             } else {
                 throw new Error('El carrito no tiene este producto')
             }
